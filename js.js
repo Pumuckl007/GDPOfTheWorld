@@ -45,7 +45,7 @@ economy.createData = function(data){
   var gdp = [];
   var countries = [];
   for(var year in data.GDP["France"]){
-    economy.years.push(year);
+    economy.years.push(parseInt(year));
   }
   for(var key in data.GDP){
     if(economy.countryMap[key.toLowerCase()]){
@@ -117,6 +117,14 @@ economy.createData = function(data){
     }
   }
   economy.areas = areas;
+  economy.years.sort(function(a, b){
+    if(a > b){
+      return 1;
+    } else if(a<b) {
+      return -1;
+    }
+    return 0;
+  })
 }
 
 $('[data-slider]').on('change.fndtn.slider', function(){
