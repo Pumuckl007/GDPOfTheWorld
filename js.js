@@ -20,6 +20,15 @@ economy.load = function() {
           values: economy.areas[economy.year],
           min: 0,
           max: economy.yearMax[economy.year]
+        }],
+        markers: [{
+          attribute: 'image',
+          scale: {
+            'TC': 'TC2.svg',
+            'I': 'I.svg',
+            'SR': 'SR.svg'
+          },
+          values: economy.typesOfRule.reduce(function(p, c, i){ p[i] = c.status; return p }, {})
         }]
       },
       onRegionTipShow: function(event, label, index){
@@ -34,7 +43,20 @@ economy.load = function() {
             'No Data'
           );
         }
-      }
+      },
+      onMarkerTipShow: function(event, label, index){
+        if(economy.typesOfRule[index].info){
+          label.html(
+            '<b>'+economy.typesOfRule[index].type+'</b><br/>'+
+            economy.typesOfRule[index].info
+          );
+        } else {
+          label.html(
+            '<b>'+economy.typesOfRule[index].type+'</b>'
+          );
+        }
+      },
+      markers: economy.typesOfRule.map(function(h){ return {name: h.type, latLng: h.coords} })
       });
   };
   request.open("get", "economyData.json", true);
@@ -139,6 +161,7 @@ $('[data-slider]').on('change.fndtn.slider', function(){
         economy.mapObject.series.regions[0].params.max = economy.yearMax[economy.year];
         document.getElementById("scale").innerHTML = "$0 - $" + economy.yearMax[economy.year];
       } else {
+        console.log(economy.mapObject.series);
         economy.mapObject.series.regions[0].params.max = economy.max;
         document.getElementById("scale").innerHTML = "$0 - $" + economy.max;
       }
@@ -150,6 +173,7 @@ $('[data-slider]').on('change.fndtn.slider', function(){
     economy.auto = this.dataset.slider >= 99;
     if(economy.mapObject){
       if(economy.auto){
+        console.log(economy.mapObject.series.regions);
         economy.mapObject.series.regions[0].params.max = economy.yearMax[economy.year];
         document.getElementById("scale").innerHTML = "$0 - $" + economy.yearMax[economy.year];
       } else {
@@ -166,6 +190,20 @@ $('[data-slider]').on('change.fndtn.slider', function(){
   }
   economy.first = true;
 });
+
+economy.typesOfRule = [
+  {type:"Trading Company Rule", coords: [7,6], status:"TC", offsets: [0,0]},
+  {type:"Trading Company Rule", coords: [-13,33.7], status:"TC", offsets: [0,0]},
+  {type:"Trading Company Rule", coords: [-15,25], status:"TC", offsets: [0,0]},
+  {type:"Trading Company Rule", coords: [-19,29.6], status:"TC", offsets: [0,0]},
+  {type:"Indirect Rule", coords: [12,6], status:"I", offsets: [0,0]},
+  {type:"Indirect Rule", coords: [1,32], status:"I", offsets: [0,0]},
+  {type:"Indirect Rule", coords: [17,10], status:"I", offsets: [0,0]},
+  {type:"Indirect Rule", coords: [8,-1.4], status:"I", offsets: [0,0]},
+  {type:"Settler Rule", coords: [1,38.5], status:"SR", offsets: [0,0]},
+  {type:"Settler Rule", coords: [-28,25], status:"SR", offsets: [0,0]},
+  {type:"Settler Rule", coords: [-23,17.5], status:"SR", offsets: [0,0]}
+]
 
 economy.contries = {
   "BD": {
