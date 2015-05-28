@@ -26,7 +26,8 @@ economy.load = function() {
           scale: {
             'TC': 'TC2.svg',
             'I': 'I.svg',
-            'SR': 'SR.svg'
+            'SR': 'SR.svg',
+            'CG': 'CG.svg'
           },
           values: economy.typesOfRule.reduce(function(p, c, i){ p[i] = c.status; return p }, {})
         }]
@@ -161,7 +162,6 @@ $('[data-slider]').on('change.fndtn.slider', function(){
         economy.mapObject.series.regions[0].params.max = economy.yearMax[economy.year];
         document.getElementById("scale").innerHTML = "$0 - $" + economy.yearMax[economy.year];
       } else {
-        console.log(economy.mapObject.series);
         economy.mapObject.series.regions[0].params.max = economy.max;
         document.getElementById("scale").innerHTML = "$0 - $" + economy.max;
       }
@@ -173,7 +173,6 @@ $('[data-slider]').on('change.fndtn.slider', function(){
     economy.auto = this.dataset.slider >= 99;
     if(economy.mapObject){
       if(economy.auto){
-        console.log(economy.mapObject.series.regions);
         economy.mapObject.series.regions[0].params.max = economy.yearMax[economy.year];
         document.getElementById("scale").innerHTML = "$0 - $" + economy.yearMax[economy.year];
       } else {
@@ -202,7 +201,8 @@ economy.typesOfRule = [
   {type:"Indirect Rule", coords: [8,-1.4], status:"I", offsets: [0,0]},
   {type:"Settler Rule", coords: [1,38.5], status:"SR", offsets: [0,0]},
   {type:"Settler Rule", coords: [-28,25], status:"SR", offsets: [0,0]},
-  {type:"Settler Rule", coords: [-23,17.5], status:"SR", offsets: [0,0]}
+  {type:"Settler Rule", coords: [-23,17.5], status:"SR", offsets: [0,0]},
+  {type:"Condominium Government", coords: [15,30], status:"CG", offsets: [0,0]}
 ]
 
 economy.contries = {
